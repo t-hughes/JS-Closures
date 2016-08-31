@@ -12,12 +12,20 @@ var outer = function(){
 // Invoke outer saving the return value into another variable called 'inner'.
 
 // Code Here
+  var inner = outer();
 
-
+//This is what INNER is doing ----->
+  /* function inner(){
+    return 'The original name was ' + name;
+}*/
 //Once you do that, invoke inner.
 
   //Code Here
+inner();
 
+//The orignal name was Tyler
+var tylerName = inner();
+//value of tylerName is "The original name was Tyler"
 
 
 //////////////////PROBLEM 2////////////////////
@@ -36,29 +44,31 @@ var callFriend = function(){
 // Create a makeCall function that when invoked logs  'Calling Jake at 435-215-9248' in your console.
 
   //Code Here
-
-
-
-
-
+  function makeCall(){
+    var callJake = callFriend();
+    console.log(callJake('435-215-9248'));
+  }
 
 
 //////////////////PROBLEM 3////////////////////
 
 
 
-/*
-  Write a function called makeCounter that makes the following code work properly.
-*/
+  /*Write a function called makeCounter that makes the following code work properly.*/
 
 //Code Here
-
+  function makeCounter() {
+    var num = 1;
+    return function() {
+      return(num++);
+    }
+  }
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -73,10 +83,16 @@ var callFriend = function(){
 
 function counterFactory(value) {
 
-  // Code here.
-
-
+// Code here.
   return {
+    inc : function(){
+      value++;
+      return value;
+    },
+    dec : function(){
+      value--;
+      return value;
+    }
   }
 }
 
@@ -96,11 +112,14 @@ counter = counterFactory(10);
     var welcomeText = 'You\'re doing awesome, keep it up ';
 
     // code message function here.
+    function message(){
+      return welcomeText + firstname + ' ' + lastname + '.';
+    }
 
 
     //Uncommment this to return the value of your invoked message function
 
-    //return message()
+    return message();
   }
 
   motivation('Billy', 'Bob'); // 'Your doing awesome keep it up Billy Bob
@@ -109,7 +128,7 @@ counter = counterFactory(10);
 
 //////////////////PROBLEM 6////////////////////
 
-// Inside the return create a publicMethod property that is a function that invokes privateMethod. After you create the privateMethod
+// Inside the return create a publicMethod property that is a function that invokes and returns privateMethod. After you create the publicMethod
 // Invoke it by calling module.publicMethod(); outside the module scope
 
   var module = (function() {
@@ -127,12 +146,15 @@ counter = counterFactory(10);
 
     return {
       // Code here.
+      publicMethod : function(){
+        return privateMethod();
+      }
     };
 
   })();
 
 //Uncomment this after you create your public method
-//   module.publicMethod();
+    module.publicMethod();
 
 
 
@@ -143,13 +165,13 @@ counter = counterFactory(10);
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    newScope(i, i)
   }
 
   function newScope(i) {
-    console.log(i)
+    setTimeout(function() {
+      console.log(i);
+    }, i * 1000)
   }
 }
 timeOutCounter();
@@ -162,9 +184,13 @@ timeOutCounter();
 //////////////////PROBLEM 8////////////////////
 
 var funcArray = [];
-
-/*
-  Make the following code work
+for(var i = 0; i < 6; i++){
+  (function(i){
+   funcArray.push(
+     function(){ return(i);
+     });
+  })(i);
+ }
 
   funcArray[0]() //0
   funcArray[1]() //1
@@ -173,5 +199,5 @@ var funcArray = [];
   funcArray[4]() //4
   funcArray[5]() //5
 
-  *Hint: Don't let this fool you. Break down what's really happening here.
+  /*Hint: Don't let this fool you. Break down what's really happening here.
 */
